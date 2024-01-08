@@ -2,6 +2,7 @@ import re
 
 file_name = "markdown conversion test"
 
+
 # Specify the file path
 file_path = "src/md/" + file_name + ".md"
 
@@ -25,11 +26,18 @@ it_pattern = r'\*(.*?)\*'
 
 itemize_pattern = r'^\s*\*\s*(.*)$'
 enumerate_pattern = r'^\d+\.\s*(.*)$'
+enumerate_indent_pattern = r'^\t\d+\.\s*(.*)$'
+enumerate_indent2_pattern = r'^\t\t\d+\.\s*(.*)$'
 
 codeblock_pattern = r'```(.*?)```'
 codeline_pattern = r'\`(.*?)\`'
 
 image_pattern = r'!\[\[(.*?)\s*\|\s*(.*?)\]\]'
+
+itemize_cleanup_pattern = r'\\begin{itemize}\[leftmargin=8pt\]\n\s*(.*?)\\end{itemize}\n\n\\begin{itemize}\[leftmargin=8pt\]\n'
+enumerate_cleanup_pattern = r'\\begin{enumerate}\[leftmargin=12pt\]\n\s*(.*?)\\end{enumerate}\n\n\\begin{enumerate}\[leftmargin=12pt\]\n'
+enumerate_indent_cleanup_pattern = r'\\begin{enumerate}\[leftmargin=24pt\]\n\s*(.*?)\\end{enumerate}\n\n\\begin{enumerate}\[leftmargin=24pt\]\n'
+enumerate_indent2_cleanup_pattern = r'\\begin{enumerate}\[leftmargin=36pt\]\n\s*(.*?)\\end{enumerate}\n\n\\begin{enumerate}\[leftmargin=36pt\]\n'
 
 # Define a function to perform the replacement
 
@@ -69,6 +77,14 @@ def enumerate_replace_match(match):
     text = match.group(1)
     return f'\n\\begin{{enumerate}}[leftmargin=12pt]\n \\item {text}\n\\end{{enumerate}}'
 
+def enumerate_indent_replace_match(match):
+    text = match.group(1)
+    return f'\n\\begin{{enumerate}}[leftmargin=24pt]\n \\item {text}\n\\end{{enumerate}}'
+
+def enumerate_indent2_replace_match(match):
+    text = match.group(1)
+    return f'\n\\begin{{enumerate}}[leftmargin=36pt]\n \\item {text}\n\\end{{enumerate}}'
+
 def codeblock_replace_match(match):
     text = match.group(1)
     return f'\n\lstset{{style=bright}}\\begin{{lstlisting}}[basicstyle=\\footnotesize, language=C++]\n' + text + f'\\end{{lstlisting}}'
@@ -87,6 +103,23 @@ def image_replace_match(match):
         return f'\n\\begin{{center}}\n \includegraphics[width=0.9\linewidth]{{{file_name}}}\n\\end{{center}}'
     if(size == "large"): 
         return f'\n\\begin{{center}}\n \includegraphics[width=\linewidth]{{{file_name}}}\n\\end{{center}}'
+
+def itemize_cleanup_replace_match(match):
+    text = match.group(1)
+    return f'\\begin{{itemize}}[leftmargin=8pt]\n {text}'
+
+def enumerate_cleanup_replace_match(match):
+    text = match.group(1)
+    return f'\\begin{{enumerate}}[leftmargin=12pt]\n {text}'
+
+def enumerate_indent_cleanup_replace_match(match):
+    text = match.group(1)
+    return f'\\begin{{enumerate}}[leftmargin=24pt]\n {text}'
+
+def enumerate_indent2_cleanup_replace_match(match):
+    text = match.group(1)
+    return f'\\begin{{enumerate}}[leftmargin=36pt]\n {text}'
+
 
 # brute force replacements
 tex_file = markdown_file.replace("<br>", "\\newline")
@@ -112,6 +145,8 @@ tex_file = re.sub(it_pattern, it_replace_match, tex_file)
 
 tex_file = re.sub(itemize_pattern, itemize_replace_match, tex_file, flags=re.MULTILINE)
 tex_file = re.sub(enumerate_pattern, enumerate_replace_match, tex_file, flags=re.MULTILINE)
+tex_file = re.sub(enumerate_indent_pattern, enumerate_indent_replace_match, tex_file, flags=re.MULTILINE)
+tex_file = re.sub(enumerate_indent2_pattern, enumerate_indent2_replace_match, tex_file, flags=re.MULTILINE)
 
 tex_file = re.sub(codeblock_pattern, codeblock_replace_match, tex_file, flags=re.DOTALL)
 tex_file = re.sub(codeline_pattern, codeline_replace_match, tex_file)
@@ -119,8 +154,10 @@ tex_file = re.sub(codeline_pattern, codeline_replace_match, tex_file)
 tex_file = re.sub(image_pattern, image_replace_match, tex_file)
 
 # post processing
-tex_file = tex_file.replace("\\end{itemize}\n\n\\begin{itemize}[leftmargin=8pt]\n", "")
-tex_file = tex_file.replace("\\end{enumerate}\n\n\\begin{enumerate}[leftmargin=12pt]\n", "")
+tex_file = re.sub(itemize_cleanup_pattern, itemize_cleanup_replace_match, tex_file, flags=re.DOTALL)
+tex_file = re.sub(enumerate_cleanup_pattern, enumerate_cleanup_replace_match, tex_file, flags=re.DOTALL)
+tex_file = re.sub(enumerate_indent_cleanup_pattern, enumerate_indent_cleanup_replace_match, tex_file, flags=re.DOTALL)
+tex_file = re.sub(enumerate_indent2_pattern, enumerate_indent2_cleanup_replace_match, tex_file, flags=re.DOTALL)
 
 # add section name
 tex_file = "\section{" + file_name + "}\n" +tex_file
