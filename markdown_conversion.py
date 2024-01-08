@@ -130,6 +130,8 @@ tex_file = tex_file.replace("\\end{align}\n$$", "\\end{align*}")
 tex_file = tex_file.replace("u\u0308", "ü")
 tex_file = tex_file.replace("a\u0308", "ä")
 tex_file = tex_file.replace("o\u0308", "ö")
+tex_file = tex_file.replace("<->", "$\leftrightarrow$")
+tex_file = tex_file.replace("->", "$\rightarrow$")
 
 # Use re.sub() to replace the pattern
 tex_file = re.sub(subsubsection_pattern, subsubsection_replace_match, tex_file)
