@@ -34,10 +34,10 @@ codeline_pattern = r'\`(.*?)\`'
 
 image_pattern = r'!\[\[(.*?)\s*\|\s*(.*?)\]\]'
 
-itemize_cleanup_pattern = r'\\begin{itemize}\[leftmargin=8pt\]\n\s*(.*?)\\end{itemize}\n\n\\begin{itemize}\[leftmargin=8pt\]\n'
-enumerate_cleanup_pattern = r'\\begin{enumerate}\[leftmargin=12pt\]\n\s*(.*?)\\end{enumerate}\n\n\\begin{enumerate}\[leftmargin=12pt\]\n'
-enumerate_indent_cleanup_pattern = r'\\begin{enumerate}\[leftmargin=24pt\]\n\s*(.*?)\\end{enumerate}\n\n\\begin{enumerate}\[leftmargin=24pt\]\n'
-enumerate_indent2_cleanup_pattern = r'\\begin{enumerate}\[leftmargin=36pt\]\n\s*(.*?)\\end{enumerate}\n\n\\begin{enumerate}\[leftmargin=36pt\]\n'
+itemize_cleanup_pattern = r'\\begin{itemize}\[leftmargin=8pt, label = ·\]\n\s*(.*?)\\end{itemize}\n\n\\begin{itemize}\[leftmargin=8pt, label = ·\]\n'
+enumerate_cleanup_pattern = r'\\begin{enumerate}\[leftmargin=12pt, label = ·\]\n\s*(.*?)\\end{enumerate}\n\n\\begin{enumerate}\[leftmargin=12pt, label = ·\]\n'
+enumerate_indent_cleanup_pattern = r'\\begin{enumerate}\[leftmargin=24pt, label = ·\]\n\s*(.*?)\\end{enumerate}\n\n\\begin{enumerate}\[leftmargin=24pt, label = ·\]\n'
+enumerate_indent2_cleanup_pattern = r'\\begin{enumerate}\[leftmargin=36pt, label = ·\]\n\s*(.*?)\\end{enumerate}\n\n\\begin{enumerate}\[leftmargin=36pt, label = ·\]\n'
 
 # Define a function to perform the replacement
 
@@ -71,19 +71,19 @@ def it_replace_match(match):
 
 def itemize_replace_match(match):
     text = match.group(1)
-    return f'\n\\begin{{itemize}}[leftmargin=8pt]\n \\item[·] {text}\n\\end{{itemize}}'
+    return f'\n\\begin{{itemize}}[leftmargin=8pt, label = ·]\n \\item[·] {text}\n\\end{{itemize}}'
 
 def enumerate_replace_match(match):
     text = match.group(1)
-    return f'\n\\begin{{enumerate}}[leftmargin=12pt]\n \\item {text}\n\\end{{enumerate}}'
+    return f'\n\\begin{{enumerate}}[leftmargin=12pt, label = ·]\n \\item {text}\n\\end{{enumerate}}'
 
 def enumerate_indent_replace_match(match):
     text = match.group(1)
-    return f'\n\\begin{{enumerate}}[leftmargin=24pt]\n \\item {text}\n\\end{{enumerate}}'
+    return f'\n\\begin{{enumerate}}[leftmargin=24pt, label = ·]\n \\item {text}\n\\end{{enumerate}}'
 
 def enumerate_indent2_replace_match(match):
     text = match.group(1)
-    return f'\n\\begin{{enumerate}}[leftmargin=36pt]\n \\item {text}\n\\end{{enumerate}}'
+    return f'\n\\begin{{enumerate}}[leftmargin=36pt, label = ·]\n \\item {text}\n\\end{{enumerate}}'
 
 def codeblock_replace_match(match):
     text = match.group(1)
@@ -106,19 +106,19 @@ def image_replace_match(match):
 
 def itemize_cleanup_replace_match(match):
     text = match.group(1)
-    return f'\\begin{{itemize}}[leftmargin=8pt]\n {text}'
+    return f'\\begin{{itemize}}[leftmargin=8pt, label = ·]\n {text}'
 
 def enumerate_cleanup_replace_match(match):
     text = match.group(1)
-    return f'\\begin{{enumerate}}[leftmargin=12pt]\n {text}'
+    return f'\\begin{{enumerate}}[leftmargin=12pt, label = ·]\n {text}'
 
 def enumerate_indent_cleanup_replace_match(match):
     text = match.group(1)
-    return f'\\begin{{enumerate}}[leftmargin=24pt]\n {text}'
+    return f'\\begin{{enumerate}}[leftmargin=24pt, label = ·]\n {text}'
 
 def enumerate_indent2_cleanup_replace_match(match):
     text = match.group(1)
-    return f'\\begin{{enumerate}}[leftmargin=36pt]\n {text}'
+    return f'\\begin{{enumerate}}[leftmargin=36pt, label = ·]\n {text}'
 
 
 # brute force replacements
