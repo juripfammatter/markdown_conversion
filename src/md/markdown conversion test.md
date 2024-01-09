@@ -1,5 +1,5 @@
 # Header 1
-**Text**
+**Bold text**
 small image:
 ![[amdahl.png\|small]]
 medium image:
@@ -7,7 +7,7 @@ medium image:
 large image
 ![[Beziehung_EV.png\|large]]
 ## Header 2
-*Text*
+*Cursive Text*
 `code line`
 ```C++
 Code Block
@@ -20,6 +20,18 @@ Code Block
 1. first
 2. second
 3. third
+
 ### Header 3
 Text
+
+$$
+P=NP
+$$
+
+$$
+\begin{align}
+ x&= 34\\
+ y(t) &= 42
+\end{align}
+$$
 
