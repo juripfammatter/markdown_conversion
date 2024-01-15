@@ -51,7 +51,7 @@ itemize_replace_match =                     lambda match: f'\n\\begin{{itemize}}
 enumerate_replace_match =                   lambda match: f'\n\\begin{{enumerate}}[leftmargin=12pt]\n\t\\item {match.group(1)}\n\\end{{enumerate}}'
 enumerate_indent_replace_match =            lambda match: f'\n\\begin{{enumerate}}[leftmargin=24pt]\n\t\\item {match.group(1)}\n\\end{{enumerate}}'
 enumerate_indent2_replace_match =           lambda match: f'\n\\begin{{enumerate}}[leftmargin=36pt]\n\t\\item {match.group(1)}\n\\end{{enumerate}}'
-codeblock_replace_match =                   lambda match: f'\n\lstset{{style=bright}}\\begin{{lstlisting}}[basicstyle=\\footnotesize, language=C++]\n' + match.group(1) + f'\\end{{lstlisting}}'
+codeblock_replace_match =                   lambda match: f'\n\lstset{{style=bright}}\\begin{{lstlisting}}[language=C++]\n' + match.group(1) + f'\\end{{lstlisting}}'
 codeline_replace_match =                    lambda match: r'\texttt{' + match.group(1) + '}'
 
 # cleanup 
